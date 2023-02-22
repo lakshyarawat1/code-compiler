@@ -12,33 +12,24 @@ function App() {
   const handleSubmit = async (e) => {
     setCode(e.target.value)
     const payload = { language, code }
-
-    try {
-      const { data } = await axios.post('http://localhost:3000/run', payload)
-      setOutput(data.output)
-    } catch ({ error })
-    {
-      if ({ response })
-      {
-        const errMessage = response.data.err.stderr;
-        setOutput(errMessage)
-      }
-      else {
-        setOutput('Server error')
-      }
+    axios.post('http://localhost:3000/run', payload).then(() => setOutput(res.data.output))
     }
-  };
+
+  const options = {
+    fontSize : '16px',
+  }
 
   return (
     <>
     <div className="App">
       <MonacoEditor
-        width='800'
-        height='600'
-        language={language}
+          width='1000'
+          height='300'
+          options={options}
+          language={language}
           theme='vs-dark'
         />
-        <button onClick={ handleSubmit }>
+        <button onClick={(e) => handleSubmit(e)}>
           Execute
         </button><br />
       <select value={language} onChange={(e) => setLanguage(e.target.value)}>
